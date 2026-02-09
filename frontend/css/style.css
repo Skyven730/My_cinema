@@ -1,0 +1,38 @@
+.title {
+    background-color: #008080;
+    color: #ffffff;
+    padding:10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+}
+
+.title .navigateur img {
+  width: 150px;
+  height: auto;
+  margin-left: 20px;
+}
+
+.title .navigateur ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.title .navigateur ul li {
+    margin-left: 30px;
+}
+
+.title .navigateur ul li a {
+    color:#008080;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.title .navigateur ul li a:hover {
+    color:aqua
+}
