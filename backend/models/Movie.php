@@ -7,16 +7,16 @@ class Movie {
     public $title;
     public $description;
     public $duration;
-    public $release_date;
+    public $release_year;
     public $director;
     public $genre;
 
-    public function __construct(tab) {
+    public function __construct($db) {
         $this->conn = $db;
     }
 
     public function read() {
-        $query = "SELECT * FROM " . $this->table_name . ORDER BY created_at DESC;
+        $query = "SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -28,7 +28,7 @@ class Movie {
                       title = :title,
                       description = :description,
                       duration = :duration,
-                      release_date = :release_date,
+                      release_year = :release_year,
                       director = :director,
                       genre = :genre";
 
@@ -42,11 +42,11 @@ class Movie {
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":duration", $this->duration);
-        $stmt->bindParam(":release_date", $this->release_date);
+        $stmt->bindParam(":release_year", $this->release_year);
         $stmt->bindParam(":genre", $this->genre);
         $stmt->bindParam(":director", $this->director);
 
-        if ($strm->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
 

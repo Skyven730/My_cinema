@@ -2,7 +2,7 @@
 
 class MovieController {
 
-    private  $mb;
+    private  $db;
     private $movie;
 
     public function __construct() {
@@ -27,7 +27,7 @@ class MovieController {
                     "title" => $title,
                     "description" => $description,
                     "duration" => $duration,
-                    "relaase_year" => $release_year,
+                    "release_year" => $release_year,
                     "genre" => $genre,
                     "director" => $director
                 ];
@@ -46,17 +46,17 @@ class MovieController {
     }
 
     public function create() {
-        $data = json_decode(file_get_contents("php//input"));
+        $data = json_decode(file_get_contents("php://input"));
 
         if(
             !empty($data->title) &&
-            !empty(data->duration) &&
+            !empty($data->duration) &&
             !empty($data->release_year)
         ) {
             $this->movie->title = $data->title;
             $this->movie->description = $data->description ?? "Description";
             $this->movie->duration = $data->duration;
-            $this->movie->release_year = $release_year->
+            $this->movie->release_year = $data->release_year->
             $this->movie->genre = $data->genre ?? "";
             $this->movie->director = $data->director ?? "";
 
