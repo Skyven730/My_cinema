@@ -11,12 +11,12 @@ class Movie {
     public $director;
     public $genre;
 
-    public function __construct(tab) {
+    public function __construct($db) {
         $this->conn = $db;
     }
 
     public function read() {
-        $query = "SELECT * FROM " . $this->table_name . ORDER BY created_at DESC;
+        $query = "SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -46,7 +46,7 @@ class Movie {
         $stmt->bindParam(":genre", $this->genre);
         $stmt->bindParam(":director", $this->director);
 
-        if ($strm->execute()) {
+        if ($stmt->execute()) {
             return true;
         }
 

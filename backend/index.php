@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 spl_autoload_register(function ($class) {
-    if (file_exists(__DIR__ . '/config/' . $class . 'php')) {
+    if (file_exists(__DIR__ . '/config/' . $class . '.php')) {
         require_once __DIR__ . '/config/' . $class . '.php';
     }
 
@@ -28,7 +28,12 @@ $route = isset($_GET['route']) ? $_GET['route'] : '';
 
 switch ($route) {
     case 'movies':
-        echo json_encode(["message" => "Ici, on affichera la liste des films."]);
+        $controller = new MovieController();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $controller->index();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->create();
+        }
         break;
     case 'rooms':
         echo json_encode(["message" => "Ici, on gérera les salles."]);
@@ -40,8 +45,4 @@ switch ($route) {
         echo json_encode(["message" => "Bienvenue sur l'API My Cinema ! Tout fonctionne."]) . "\n" . "\n";
         break;
 }
-
-echo json_encode(["message" => "test"]) . "\n" . "\n";
-
-echo json_encode(["message" => "I like a candy"]) . "\n" . "\n";
 ?>
