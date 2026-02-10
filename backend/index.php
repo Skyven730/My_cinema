@@ -43,5 +43,5 @@ switch ($route) {
 
 echo json_encode(["message" => "test"]) . "\n" . "\n";
 
-echo json_encode(["message" => "I like a candy"]) . "\n" . "\n";
+echo json_encode(["message" => "I not very like candys"]) . "\n" . "\n";
 ?>
