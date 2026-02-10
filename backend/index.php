@@ -1,58 +1,46 @@
-const API_URL = "http://localhost:8000/index.php?route=movies";
+<?php
 
-async function loadMovies() {
-    try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-        const tbody = document.getElementById("movies-list");
-        tbody.innerHTML = "";
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
-        if (data.data) {
-            data.data.forEach(movie => {
-                const row = `
-                    <tr>
-                        <td>${movie.id}</td>
-                        <td><strong>${movie.title}</strong></td>
-                        <td>${movie.duration} min</td>
-                        <td>${movie.release_year}</td>
-                        <td>
-                            <button class="btn btn-sm btn-danger">Supprimer</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
-        } else {
-            tbody.innerHTML = "<tr><td colspan='5'>Aucun film trouvé</td></tr>";
-        }
-    } catch (error) {
-        console.error("Erreur:", error);
+spl_autoload_register(function ($class) {
+    if (file_exists(__DIR__ . '/config/' . $class . '.php')) {
+        require_once __DIR__ . '/config/' . $class . '.php';
     }
-
-    document.getElementById("add-movie-form").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const movie = {
-        title: document.getElementById("title").value,
-        duration: document.getElementById("duration").value,
-        release_year: document.getElementById("release_year").value,
-        description: document.getElementById("description").value
-    };
-
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(movie)
-        });
-        const data = await response.json();
-        alert(data.message);
-        loadMovies(); // Recharger la liste
-    } catch (error) {
-        console.error("Erreur:", error);
+    else if (file_exists(__DIR__ . '/models/' . $class . '.php')) {
+        require_once __DIR__ . '/models/' . $class . '.php';
+    }
+    else if (file_exists(__DIR__ . '/controllers/' . $class . '.php')) {
+        require_once __DIR__ . '/controllers/' . $class . '.php';
     }
 });
 
-loadMovies();
+$route = isset($_GET['route']) ? $_GET['route'] : '';
+
+switch ($route) {
+    case 'movies':
+        $controller = new MovieController();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $controller->index();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->create();
+        }
+        break;
+    case 'rooms':
+        echo json_encode(["message" => "Ici, on gérera les salles."]);
+        break;
+    case 'screenings':
+        echo json_encode(["message" => "Ici, on gérera les séances."]);
+        break;
+    default:
+        echo json_encode(["message" => "Bienvenue sur l'API My Cinema !"]);
+        break;
 }
+?>

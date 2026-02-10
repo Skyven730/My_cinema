@@ -56,7 +56,7 @@ class MovieController {
             $this->movie->title = $data->title;
             $this->movie->description = $data->description ?? "Description";
             $this->movie->duration = $data->duration;
-            $this->movie->release_year = $data->release_year->
+            $this->movie->release_year = $data->release_year
             $this->movie->genre = $data->genre ?? "";
             $this->movie->director = $data->director ?? "";
 

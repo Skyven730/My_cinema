@@ -30,3 +30,29 @@ async function loadMovies() {
         console.error("Erreur:", error);
     }
 }
+
+document.getElementById("add-movie-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const movie = {
+        title: document.getElementById("title").value,
+        duration: document.getElementById("duration").value,
+        release_year: document.getElementById("release_year").value,
+        description: document.getElementById("description").value
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(movie)
+        });
+        const data = await response.json();
+        alert(data.message);
+        loadMovies();
+    } catch (error) {
+        console.error("Erreur:", error);
+    }
+});
+
+loadMovies();
